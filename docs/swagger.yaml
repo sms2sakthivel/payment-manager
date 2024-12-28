@@ -1,0 +1,205 @@
+definitions:
+  github_com_gofiber_fiber_v2.Error:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+    type: object
+  model.PaymentCreateRequest:
+    properties:
+      amount:
+        type: integer
+      order_id:
+        type: integer
+      payment_mode_id:
+        type: integer
+    type: object
+  model.PaymentModeResponse:
+    properties:
+      id:
+        type: integer
+      mode:
+        type: string
+    type: object
+  model.PaymentResponse:
+    properties:
+      amount:
+        type: integer
+      order_id:
+        type: integer
+      payment_id:
+        type: integer
+      payment_mode:
+        $ref: '#/definitions/model.PaymentModeResponse'
+    type: object
+  model.PaymentUpdateRequest:
+    properties:
+      amount:
+        type: integer
+      order_id:
+        type: integer
+      payment_id:
+        type: integer
+      payment_mode_id:
+        type: integer
+    type: object
+info:
+  contact: {}
+paths:
+  /:
+    get:
+      consumes:
+      - application/json
+      description: Returns basic information about the Payment Service
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Payment Service Info
+      tags:
+      - General
+  /payments:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a list of all payments
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.PaymentResponse'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_gofiber_fiber_v2.Error'
+      summary: Get All Payments
+      tags:
+      - Payments
+    post:
+      consumes:
+      - application/json
+      description: Add a new payment to the system
+      parameters:
+      - description: Payment details
+        in: body
+        name: payment
+        required: true
+        schema:
+          $ref: '#/definitions/model.PaymentCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.PaymentResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_gofiber_fiber_v2.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_gofiber_fiber_v2.Error'
+      summary: Create a New Payment
+      tags:
+      - Payments
+  /payments/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Remove a payment by their ID
+      parameters:
+      - description: Payment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_gofiber_fiber_v2.Error'
+      summary: Delete a Payment
+      tags:
+      - Payments
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a payment by their ID
+      parameters:
+      - description: Payment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.PaymentResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_gofiber_fiber_v2.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_gofiber_fiber_v2.Error'
+      summary: Get Payment by ID
+      tags:
+      - Payments
+    put:
+      consumes:
+      - application/json
+      description: Modify details of an existing payment
+      parameters:
+      - description: Payment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated payment details
+        in: body
+        name: payment
+        required: true
+        schema:
+          $ref: '#/definitions/model.PaymentUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.PaymentResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_gofiber_fiber_v2.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_gofiber_fiber_v2.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_gofiber_fiber_v2.Error'
+      summary: Update an Existing Payment
+      tags:
+      - Payments
+swagger: "2.0"
