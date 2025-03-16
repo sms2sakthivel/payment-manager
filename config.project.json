@@ -1,13 +1,13 @@
 {
     "repository" : {
-        "project_name": "Payment Management Service",
+        "project_name": "Payment Service",
         "guid": "5206ABBD-7B58-4443-A54C-B5232E47AD01",
         "description": "Creates and Manages the entire lifecycle of the payments"
         "jira_instance_url": "http://host.docker.internal:8080",
         "jira_project_key": "PAYMAN",
     },
     "branch" : {
-        "project_name": "Payment Management Service",
+        "project_name": "Payment Service",
         "guid": "5206ABBD-7B58-4443-A54C-B5232E47AD01",
         "description": "Creates and Manages the entire lifecycle of the payments"
         "jira_instance_url": "http://host.docker.internal:8080",
